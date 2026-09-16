@@ -9,19 +9,150 @@
 const API_BASE = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
   ? "http://localhost:5000"
   : ""; // Same origin in production (frontend + backend on Vercel)
-
-// ─── Campus Location Data ────────────────────────────────────────────────────
+// ─── SRM KTR Campus Locations ───────────────────────────────────────
 const CAMPUS_LOCATIONS = {
-  "Library": ["Ground Floor", "First Floor", "Study Rooms", "Near Entrance", "Reference Section"],
-  "Cafeteria": ["Main Hall", "Food Court", "Seating Area", "Near Vending Machines"],
-  "Admin Block": ["Reception", "Ground Floor Corridor", "First Floor", "Offices"],
-  "Engineering Block": ["Lab 1 (CS)", "Lab 2 (Electronics)", "Classrooms", "Workshop", "Common Room"],
-  "Science Block": ["Physics Lab", "Chemistry Lab", "Biology Lab", "Classrooms", "Corridor"],
-  "Sports Complex": ["Ground", "Gymnasium", "Changing Rooms", "Swimming Pool Area"],
-  "Hostel Block A": ["Common Room", "Ground Floor Corridor", "First Floor", "Reception"],
-  "Hostel Block B": ["Common Room", "Ground Floor Corridor", "First Floor", "Reception"],
-  "Parking Lot": ["Main Lot", "Bike Parking", "Near Entry Gate"],
-  "Main Gate": ["Entrance", "Security Booth", "Waiting Area"],
+  "University Building": [
+    "Main Entrance",
+    "Reception",
+    "Classroom Area",
+    "Office Area",
+    "Corridor",
+    "Other"
+  ],
+
+  "Tech Park": [
+    "Main Entrance",
+    "Classroom Area",
+    "Laboratory Area",
+    "Seminar Hall",
+    "Corridor",
+    "Other"
+  ],
+
+  "Hi-Tech Block": [
+    "Main Entrance",
+    "Classroom Area",
+    "Laboratory Area",
+    "Corridor",
+    "Other"
+  ],
+
+  "Basic Engineering Lab": [
+    "Main Entrance",
+    "Laboratory Area",
+    "Workshop Area",
+    "Corridor",
+    "Other"
+  ],
+
+  "Mechanical Block": [
+    "Mechanical A Block",
+    "Mechanical B Block",
+    "Mechanical C Block",
+    "Mechanical D Block",
+    "Mechanical E Block",
+    "Mechanical Hanger",
+    "Other"
+  ],
+
+  "Electrical Sciences Block": [
+    "Main Entrance",
+    "Classroom Area",
+    "Laboratory Area",
+    "Faraday Hall",
+    "Corridor",
+    "Other"
+  ],
+
+  "CRC Block": [
+    "Main Entrance",
+    "Classroom Area",
+    "Office Area",
+    "Laboratory Area",
+    "Corridor",
+    "Other"
+  ],
+
+  "Bioengineering Block": [
+    "Main Entrance",
+    "Classroom Area",
+    "Laboratory Area",
+    "Seminar Hall",
+    "Corridor",
+    "Other"
+  ],
+
+  "Central Library": [
+    "Main Entrance",
+    "Book Section",
+    "Reading Area",
+    "Reference Section",
+    "Computer Area",
+    "Other"
+  ],
+
+  "Raman Research Park": [
+    "Main Entrance",
+    "Research Laboratory",
+    "Office Area",
+    "Corridor",
+    "Other"
+  ],
+
+  "Dr. T. P. Ganesan Auditorium": [
+    "Main Entrance",
+    "Main Auditorium",
+    "Mini Hall",
+    "Waiting Area",
+    "Other"
+  ],
+
+  "Medical College": [
+    "Main Entrance",
+    "Reception",
+    "Waiting Area",
+    "Hospital Area",
+    "Other"
+  ],
+
+  "Hostel Area": [
+    "Hostel Entrance",
+    "Reception",
+    "Common Area",
+    "Dining Area",
+    "Other"
+  ],
+
+  "Cafeteria and Food Court": [
+    "Main Canteen",
+    "Food Court",
+    "Seating Area",
+    "Food Stall",
+    "Other"
+  ],
+
+  "Sports Facilities": [
+    "Sports Ground",
+    "Indoor Games Area",
+    "Gymnasium",
+    "Swimming Pool Area",
+    "Other"
+  ],
+
+  "Parking Area": [
+    "Car Parking",
+    "Bike Parking",
+    "Bus Parking",
+    "Other"
+  ],
+
+  "Campus Gates": [
+    "Main Gate",
+    "Other Gate",
+    "Security Booth",
+    "Waiting Area",
+    "Other"
+  ]
 };
 
 const CATEGORY_ICONS = {

@@ -269,7 +269,16 @@ async function loadStats() {
 function renderItems(items) {
   const grid = document.getElementById("items-grid");
   const meta = document.getElementById("results-meta");
-
+   const claimButton = item.type === "found"
+  ? `
+    <button
+      class="btn btn-outline btn-sm"
+      onclick="openClaimModal('${item._id}', '${escapeHtml(item.title)}')"
+    >
+      🙋 This Is Mine
+    </button>
+  `
+  : "";
   if (!items || items.length === 0) {
     meta.textContent = "No results";
     grid.innerHTML = `

@@ -186,6 +186,47 @@ function escapeHtml(str) {
   div.appendChild(document.createTextNode(str || ""));
   return div.innerHTML;
 }
+// ─── GPS Location ────────────────────────────────────────────────
+
+function getCurrentLocation(type) {
+  const statusEl = document.getElementById(`${type}-gps-status`);
+
+  if (!navigator.geolocation) {
+    statusEl.textContent = "GPS is not supported by this browser.";
+    return;
+  }
+
+  statusEl.textContent = "Getting your location...";
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const { latitude, longitude, accuracy } = position.coords;
+
+      document.getElementById(`${type}-latitude`).value = latitude;
+      document.getElementById(`${type}-longitude`).value = longitude;
+
+      statusEl.textContent =
+        `Location captured (accuracy: ${Math.round(accuracy)}m)`;
+    },
+    (error) => {
+      const messages = {
+        1: "Location permission was denied.",
+        2: "Your location could not be determined.",
+        3: "Location request timed out."
+      };
+
+      statusEl.textContent =
+        messages[error.code] || "Unable to get your location.";
+
+      console.error("GPS error:", error);
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    }
+  );
+}
 
 // ─── Toast Notification ───────────────────────────────────────────────────────
 function showToast(message, type = "info") {

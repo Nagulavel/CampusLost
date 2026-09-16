@@ -21,6 +21,39 @@ const locationSchema = new mongoose.Schema({
   },
 });
 
+const claimRequestSchema = new mongoose.Schema(
+  {
+    claimantName: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 100,
+    },
+    claimantContact: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 200,
+    },
+    claimDescription: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 500,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: true }
+);
+
 const itemSchema = new mongoose.Schema(
   {
     title: {
@@ -80,6 +113,10 @@ const itemSchema = new mongoose.Schema(
       default: "Anonymous",
       maxlength: [100, "Name cannot exceed 100 characters"],
     },
+    claims: {
+  type: [claimRequestSchema],
+  default: [],
+},
   },
   {
     timestamps: true,

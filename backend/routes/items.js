@@ -207,6 +207,84 @@ router.patch("/:id/status", async (req, res) => {
   }
 });
 
+// ─── POST /api/items/:id/claims ─────────────────────────────────────────────
+// Submit a claim request for a found item
+router.post("/:id/claims", async (req, res) => {
+  try {
+    const {
+      claimantName,
+      claimantContact,
+      claimDescription,
+    } = req.body;
+
+    if (!claimantName || !claimantContact || !claimDescription) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "claimantName, claimantContact, and claimDescription are required",
+      });
+    }
+
+    const item = await Item.findById(req.params.id);
+
+    if (!item) {
+      return res.status(404).json({
+        success: false,
+        message: "Item not found",
+      });
+    }
+
+    if (item.type !== "found") {
+      return res.status(400).json({
+        success: false,
+        message: "Only found items can be claimed",
+      });
+    }
+
+    if (item.status !== "active") {
+      return res.status(400).json({
+        success: false,
+        message: "This item is no longer available for claiming",
+      });
+    }
+
+    item.claims.push({
+      claimantName,
+      claimantContact,
+      claimDescription,
+    });
+
+    await item.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Claim request submitted successfully",
+      data: item,
+    });
+  } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid item ID",
+      });
+    }
+
+    if (err.name === "ValidationError") {
+      const messages = Object.values(err.errors).map((e) => e.message);
+
+      return res.status(400).json({
+        success: false,
+        message: messages.join(". "),
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
 // ─── DELETE /api/items/:id ───────────────────────────────────────────────────
 // Dev-only: No auth yet. Will be protected in v2.
 router.delete("/:id", async (req, res) => {

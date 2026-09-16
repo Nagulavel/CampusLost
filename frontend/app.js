@@ -349,7 +349,14 @@ async function submitReport(formEl, feedbackEl, type) {
     type,
     category: data.category,
     description: data.description.trim(),
-    location: { building, area },
+    location: {building,
+  area,
+  latitude: data.latitude
+    ? Number(data.latitude)
+    : null,
+  longitude: data.longitude
+    ? Number(data.longitude)
+    : null},
     contactInfo: data.contactInfo?.trim() || "",
     reportedBy: data.reportedBy?.trim() || "Anonymous",
   };
@@ -536,6 +543,14 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".status-btn").forEach((btn) => {
     btn.addEventListener("click", () => updateStatus(btn.dataset.status));
   });
+   // GPS buttons
+document.getElementById("lost-gps-btn").addEventListener("click", () => {
+  getCurrentLocation("lost");
+});
+
+document.getElementById("found-gps-btn").addEventListener("click", () => {
+  getCurrentLocation("found");
+});
 
   // Char counters
   setupCharCounter("lost-title", "lost-title-count", 100);

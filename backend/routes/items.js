@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Item = require("../models/Item");
+const upload = require("../middleware/upload");
 
 // ─── GET /api/items ─────────────────────────────────────────────────────────
 // List items with optional filters: ?type=lost|found, ?building=Library,
@@ -94,7 +95,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // ─── POST /api/items ─────────────────────────────────────────────────────────
-router.post("/", async (req, res) => {
+router.post("/", upload.single("image"), async (req, res) => {
   try {
     const { title, type, category, description, location, contactInfo, reportedBy } =
       req.body;
@@ -122,6 +123,8 @@ router.post("/", async (req, res) => {
       location,
       contactInfo: contactInfo || "",
       reportedBy: reportedBy || "Anonymous",
+      imageUrl: req.file ? req.file.path : "",
+      imagePublicId: req.file ? req.file.filename : "",
     });
 
     res.status(201).json({ success: true, data: item });

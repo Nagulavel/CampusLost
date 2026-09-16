@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CampusFind — Campus Lost & Found</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎒</text></svg>"
+    />
+  </head>
+  <body>
+    <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo">
+          <span class="logo-icon">🎒</span>
+          <div class="logo-text">
+            <span class="logo-name">CampusFind</span>
+            <span class="logo-tagline">Campus Lost & Found</span>
+          </div>
+        </div>
+        <nav class="nav-tabs" role="tablist">
+          <button class="nav-tab active" data-tab="browse" role="tab" aria-selected="true">
+            🔍 Browse
+          </button>
+          <button class="nav-tab" data-tab="report-lost" role="tab" aria-selected="false">
+            😟 Report Lost
+          </button>
+          <button class="nav-tab" data-tab="report-found" role="tab" aria-selected="false">
+            🙌 Report Found
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════ STATS BAR ════════════════════════════ -->
+    <div class="stats-bar">
+      <div class="stats-inner">
+        <div class="stat-pill lost">
+          <span class="stat-num" id="stat-lost">—</span>
+          <span class="stat-label">Active Lost</span>
+        </div>
+        <div class="stat-pill found">
+          <span class="stat-num" id="stat-found">—</span>
+          <span class="stat-label">Items Found</span>
+        </div>
+        <div class="stat-pill resolved">
+          <span class="stat-num" id="stat-resolved">—</span>
+          <span class="stat-label">Resolved</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ MAIN ════════════════════════════════ -->
+    <main class="main-content">
+      <!-- ─── BROWSE TAB ─────────────────────────────────────────────────── -->
+      <section id="tab-browse" class="tab-panel active" role="tabpanel">
+        <div class="section-header">
+          <h2>Browse Reports</h2>
+          <p class="section-sub">Find lost items or see what's been handed in</p>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="filter-search">
+            <span class="filter-icon">🔍</span>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search by title or description…"
+              autocomplete="off"
+            />
+          </div>
+          <div class="filter-controls">
+            <select id="filter-type">
+              <option value="">All Types</option>
+              <option value="lost">😟 Lost</option>
+              <option value="found">🙌 Found</option>
+            </select>
+            <select id="filter-category">
+              <option value="">All Categories</option>
+              <option value="ID Card">ID Card</option>
+              <option value="Wallet">Wallet</option>
+              <option value="Keys">Keys</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Books">Books</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Bag">Bag</option>
+              <option value="Stationery">Stationery</option>
+              <option value="Water Bottle">Water Bottle</option>
+              <option value="Other">Other</option>
+            </select>
+            <select id="filter-building">
+              <option value="">All Locations</option>
+              <option value="Library">Library</option>
+              <option value="Cafeteria">Cafeteria</option>
+              <option value="Admin Block">Admin Block</option>
+              <option value="Engineering Block">Engineering Block</option>
+              <option value="Science Block">Science Block</option>
+              <option value="Sports Complex">Sports Complex</option>
+              <option value="Hostel Block A">Hostel Block A</option>
+              <option value="Hostel Block B">Hostel Block B</option>
+              <option value="Parking Lot">Parking Lot</option>
+              <option value="Main Gate">Main Gate</option>
+            </select>
+            <button id="btn-clear-filters" class="btn btn-ghost btn-sm">✕ Clear</button>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="results-meta" id="results-meta">Loading…</div>
+        <div class="items-grid" id="items-grid">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading items…</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── REPORT LOST TAB ────────────────────────────────────────────── -->
+      <section id="tab-report-lost" class="tab-panel" role="tabpanel">
+        <div class="section-header">
+          <h2>😟 Report a Lost Item</h2>
+          <p class="section-sub">
+            Fill in the details about what you've lost. We'll help others find it.
+          </p>
+        </div>
+        <div class="form-card">
+          <form id="form-lost" novalidate>
+            <input type="hidden" name="type" value="lost" />
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="lost-title">Item Title <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="lost-title"
+                  name="title"
+                  placeholder="e.g. Blue college ID card"
+                  maxlength="100"
+                  required
+                />
+                <span class="char-count" id="lost-title-count">0/100</span>
+              </div>
+
+              <div class="form-group">
+                <label for="lost-category">Category <span class="required">*</span></label>
+                <select id="lost-category" name="category" required>
+                  <option value="">Select category…</option>
+                  <option value="ID Card">🪪 ID Card</option>
+                  <option value="Wallet">👛 Wallet</option>
+                  <option value="Keys">🔑 Keys</option>
+                  <option value="Electronics">📱 Electronics</option>
+                  <option value="Books">📚 Books</option>
+                  <option value="Clothing">👕 Clothing</option>
+                  <option value="Bag">🎒 Bag</option>
+                  <option value="Stationery">✏️ Stationery</option>
+                  <option value="Water Bottle">🍶 Water Bottle</option>
+                  <option value="Other">📦 Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="lost-building">Building <span class="required">*</span></label>
+                <select id="lost-building" name="building" required>
+                  <option value="">Select building…</option>
+                  <option value="Library">📚 Library</option>
+                  <option value="Cafeteria">🍽️ Cafeteria</option>
+                  <option value="Admin Block">🏢 Admin Block</option>
+                  <option value="Engineering Block">⚙️ Engineering Block</option>
+                  <option value="Science Block">🔬 Science Block</option>
+                  <option value="Sports Complex">🏃 Sports Complex</option>
+                  <option value="Hostel Block A">🏠 Hostel Block A</option>
+                  <option value="Hostel Block B">🏠 Hostel Block B</option>
+                  <option value="Parking Lot">🚗 Parking Lot</option>
+                  <option value="Main Gate">🚪 Main Gate</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="lost-area">Area / Floor <span class="required">*</span></label>
+                <select id="lost-area" name="area" required disabled>
+                  <option value="">Select building first…</option>
+                </select>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="lost-description"
+                  >Description <span class="required">*</span></label
+                >
+                <textarea
+                  id="lost-description"
+                  name="description"
+                  placeholder="Describe the item — colour, size, any identifying marks…"
+                  maxlength="500"
+                  rows="4"
+                  required
+                ></textarea>
+                <span class="char-count" id="lost-desc-count">0/500</span>
+              </div>
+
+              <div class="form-group">
+                <label for="lost-name">Your Name</label>
+                <input
+                  type="text"
+                  id="lost-name"
+                  name="reportedBy"
+                  placeholder="Anonymous"
+                  maxlength="100"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="lost-contact">Contact Info</label>
+                <input
+                  type="text"
+                  id="lost-contact"
+                  name="contactInfo"
+                  placeholder="Email or phone (optional)"
+                  maxlength="200"
+                />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-lost btn-lg">
+                <span class="btn-icon">😟</span> Submit Lost Report
+              </button>
+            </div>
+            <div id="lost-feedback" class="form-feedback" aria-live="polite"></div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ─── REPORT FOUND TAB ───────────────────────────────────────────── -->
+      <section id="tab-report-found" class="tab-panel" role="tabpanel">
+        <div class="section-header">
+          <h2>🙌 Report a Found Item</h2>
+          <p class="section-sub">
+            Found something? Log it here so the owner can claim it.
+          </p>
+        </div>
+        <div class="form-card">
+          <form id="form-found" novalidate>
+            <input type="hidden" name="type" value="found" />
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="found-title">Item Title <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="found-title"
+                  name="title"
+                  placeholder="e.g. Black wallet near the library entrance"
+                  maxlength="100"
+                  required
+                />
+                <span class="char-count" id="found-title-count">0/100</span>
+              </div>
+
+              <div class="form-group">
+                <label for="found-category">Category <span class="required">*</span></label>
+                <select id="found-category" name="category" required>
+                  <option value="">Select category…</option>
+                  <option value="ID Card">🪪 ID Card</option>
+                  <option value="Wallet">👛 Wallet</option>
+                  <option value="Keys">🔑 Keys</option>
+                  <option value="Electronics">📱 Electronics</option>
+                  <option value="Books">📚 Books</option>
+                  <option value="Clothing">👕 Clothing</option>
+                  <option value="Bag">🎒 Bag</option>
+                  <option value="Stationery">✏️ Stationery</option>
+                  <option value="Water Bottle">🍶 Water Bottle</option>
+                  <option value="Other">📦 Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="found-building"
+                  >Where Found — Building <span class="required">*</span></label
+                >
+                <select id="found-building" name="building" required>
+                  <option value="">Select building…</option>
+                  <option value="Library">📚 Library</option>
+                  <option value="Cafeteria">🍽️ Cafeteria</option>
+                  <option value="Admin Block">🏢 Admin Block</option>
+                  <option value="Engineering Block">⚙️ Engineering Block</option>
+                  <option value="Science Block">🔬 Science Block</option>
+                  <option value="Sports Complex">🏃 Sports Complex</option>
+                  <option value="Hostel Block A">🏠 Hostel Block A</option>
+                  <option value="Hostel Block B">🏠 Hostel Block B</option>
+                  <option value="Parking Lot">🚗 Parking Lot</option>
+                  <option value="Main Gate">🚪 Main Gate</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="found-area">Area / Floor <span class="required">*</span></label>
+                <select id="found-area" name="area" required disabled>
+                  <option value="">Select building first…</option>
+                </select>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="found-description"
+                  >Description <span class="required">*</span></label
+                >
+                <textarea
+                  id="found-description"
+                  name="description"
+                  placeholder="Describe what you found — colour, brand, condition…"
+                  maxlength="500"
+                  rows="4"
+                  required
+                ></textarea>
+                <span class="char-count" id="found-desc-count">0/500</span>
+              </div>
+
+              <div class="form-group">
+                <label for="found-name">Your Name</label>
+                <input
+                  type="text"
+                  id="found-name"
+                  name="reportedBy"
+                  placeholder="Anonymous"
+                  maxlength="100"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="found-contact">Contact Info</label>
+                <input
+                  type="text"
+                  id="found-contact"
+                  name="contactInfo"
+                  placeholder="Email or phone (optional)"
+                  maxlength="200"
+                />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-found btn-lg">
+                <span class="btn-icon">🙌</span> Submit Found Report
+              </button>
+            </div>
+            <div id="found-feedback" class="form-feedback" aria-live="polite"></div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- ═══════════════════════════════ STATUS MODAL ══════════════════════════ -->
+    <div id="status-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Update Item Status" hidden>
+      <div class="modal-card">
+        <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+        <h3 class="modal-title">Update Item Status</h3>
+        <p class="modal-item-title" id="modal-item-name"></p>
+        <div class="modal-options">
+          <button class="status-btn status-active" data-status="active">🟢 Mark as Active</button>
+          <button class="status-btn status-claimed" data-status="claimed">🤝 Mark as Claimed</button>
+          <button class="status-btn status-resolved" data-status="resolved">✅ Mark as Resolved</button>
+        </div>
+        <div id="modal-feedback" class="form-feedback" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ TOAST ════════════════════════════════ -->
+    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+    <!-- ═══════════════════════════════ FOOTER ══════════════════════════════ -->
+    <footer class="site-footer">
+      <p>CampusFind &copy; 2026 &mdash; Helping students find what matters</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

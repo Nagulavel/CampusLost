@@ -359,6 +359,19 @@ function renderItems(items) {
         ? `<span class="item-meta-chip">📬 ${escapeHtml(item.contactInfo)}</span>`
         : "";
 
+       const imageHtml = item.imageUrl
+  ? `
+    <div class="item-image-wrapper">
+      <img
+        src="${escapeHtml(item.imageUrl)}"
+        alt="${escapeHtml(item.title)}"
+        class="item-image"
+        loading="lazy"
+      />
+    </div>
+  `
+  : "";
+
       return `
         <article class="item-card type-${item.type}" data-id="${item._id}">
           <div class="item-card-header">
@@ -368,7 +381,8 @@ function renderItems(items) {
               ${statusBadge}
             </div>
           </div>
-          <div class="item-meta">
+          ${imageHtml}
+           <div class="item-meta">
             <span class="item-meta-chip">${catIcon} ${escapeHtml(item.category)}</span>
             <span class="item-meta-chip">📍 ${escapeHtml(item.location.building)}</span>
             <span class="item-meta-chip">🗺️ ${escapeHtml(item.location.area)}</span>

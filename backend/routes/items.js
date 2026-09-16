@@ -97,9 +97,24 @@ router.get("/:id", async (req, res) => {
 // ─── POST /api/items ─────────────────────────────────────────────────────────
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-    const { title, type, category, description, location, contactInfo, reportedBy } =
-      req.body;
+  const {
+  title,
+  type,
+  category,
+  description,
+  contactInfo,
+  reportedBy,
+} = req.body;
 
+let location;
+
+try {
+  location = JSON.parse(req.body.location);
+} catch {
+  return res.status(400).json({
+    message: "Invalid location data",
+  });
+}
     // Basic required field check
     if (!title || !type || !category || !description || !location) {
       return res.status(400).json({

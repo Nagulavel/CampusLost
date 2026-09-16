@@ -228,14 +228,16 @@
               </div>
 
               <div class="form-group">
-                <label for="lost-name">Your Name</label>
-                <input
-                  type="text"
-                  id="lost-name"
-                  name="reportedBy"
-                  placeholder="Anonymous"
-                  maxlength="100"
-                />
+               <div class="form-group full-width">
+  <label for="lost-image">Upload Image</label>
+  <input
+    type="file"
+    id="lost-image"
+    name="image"
+    accept="image/jpeg,image/png,image/webp"
+  />
+  <small>Maximum file size: 5 MB</small>
+</div>
               </div>
 
               <div class="form-group">
@@ -362,16 +364,16 @@
                 <span class="char-count" id="found-desc-count">0/500</span>
               </div>
 
-              <div class="form-group">
-                <label for="found-name">Your Name</label>
-                <input
-                  type="text"
-                  id="found-name"
-                  name="reportedBy"
-                  placeholder="Anonymous"
-                  maxlength="100"
-                />
-              </div>
+             <div class="form-group full-width">
+  <label for="found-image">Upload Image</label>
+  <input
+    type="file"
+    id="found-image"
+    name="image"
+    accept="image/jpeg,image/png,image/webp"
+  />
+  <small>Maximum file size: 5 MB</small>
+</div>
 
               <div class="form-group">
                 <label for="found-contact">Contact Info</label>

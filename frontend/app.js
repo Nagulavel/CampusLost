@@ -115,12 +115,12 @@ function renderItems(items) {
     .map((item) => {
       const catIcon = CATEGORY_ICONS[item.category] || "📦";
       const typeBadge = item.type === "lost"
-        ? `<span class="badge badge-lost">😟 Lost</span>`
-        : `<span class="badge badge-found">🙌 Found</span>`;
+        ? `<span class="badge badge-lost"> Lost</span>`
+        : `<span class="badge badge-found"> Found</span>`;
 
       let statusBadge = "";
-      if (item.status === "resolved") statusBadge = `<span class="badge badge-resolved">✅ Resolved</span>`;
-      if (item.status === "claimed") statusBadge = `<span class="badge badge-claimed">🤝 Claimed</span>`;
+      if (item.status === "resolved") statusBadge = `<span class="badge badge-resolved"> Resolved</span>`;
+      if (item.status === "claimed") statusBadge = `<span class="badge badge-claimed"> Claimed</span>`;
 
       const reporter = item.reportedBy && item.reportedBy !== "Anonymous"
         ? `by ${escapeHtml(item.reportedBy)}`

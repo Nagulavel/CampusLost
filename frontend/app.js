@@ -269,16 +269,6 @@ async function loadStats() {
 function renderItems(items) {
   const grid = document.getElementById("items-grid");
   const meta = document.getElementById("results-meta");
-   const claimButton = item.type === "found"
-  ? `
-    <button
-      class="btn btn-outline btn-sm"
-      onclick="openClaimModal('${item._id}', '${escapeHtml(item.title)}')"
-    >
-      🙋 This Is Mine
-    </button>
-  `
-  : "";
   if (!items || items.length === 0) {
     meta.textContent = "No results";
     grid.innerHTML = `
@@ -298,6 +288,17 @@ function renderItems(items) {
       const typeBadge = item.type === "lost"
         ? `<span class="badge badge-lost"> Lost</span>`
         : `<span class="badge badge-found"> Found</span>`;
+       const claimButton = item.type === "found"
+  ? `
+    <button
+      class="btn btn-outline btn-sm"
+      onclick="openClaimModal('${item._id}', '${escapeHtml(item.title)}')"
+    >
+      🙋 This Is Mine
+    </button>
+  `
+  : "";
+       
 
       let statusBadge = "";
       if (item.status === "resolved") statusBadge = `<span class="badge badge-resolved"> Resolved</span>`;
@@ -330,6 +331,8 @@ function renderItems(items) {
           <div class="item-footer">
             <span>${reporter} · ${timeAgo(item.createdAt)}</span>
             <div class="item-actions">
+            ${claimButton}
+
               <button
                 class="btn btn-outline btn-sm"
                 onclick="openStatusModal('${item._id}', '${escapeHtml(item.title)}')"

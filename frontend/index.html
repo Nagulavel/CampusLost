@@ -184,6 +184,19 @@
                   <option value="">Select building first…</option>
                 </select>
               </div>
+              <!-- GPS LOCATION  -->
+<div class="form-group full-width gps-section">
+  <button type="button" class="btn btn-outline" id="lost-gps-btn">
+    Use My Current Location
+  </button>
+
+  <p id="lost-gps-status" class="gps-status">
+    GPS location is optional
+  </p>
+
+  <input type="hidden" name="latitude" id="lost-latitude">
+  <input type="hidden" name="longitude" id="lost-longitude">
+</div>
 
               <div class="form-group full-width">
                 <label for="lost-description"
@@ -300,6 +313,19 @@
                   <option value="">Select building first…</option>
                 </select>
               </div>
+              <!-- GPS LOCATION -->
+<div class="form-group full-width gps-section">
+  <button type="button" class="btn btn-outline" id="found-gps-btn">
+    Use My Current Location
+  </button>
+
+  <p id="found-gps-status" class="gps-status">
+    GPS location is optional
+  </p>
+
+  <input type="hidden" name="latitude" id="found-latitude">
+  <input type="hidden" name="longitude" id="found-longitude">
+</div>
 
               <div class="form-group full-width">
                 <label for="found-description"

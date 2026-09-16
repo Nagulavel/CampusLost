@@ -584,3 +584,16 @@ body {
   .filter-bar { flex-direction: row; align-items: center; }
   .filter-search { flex: 1; }
 }
+.item-image-wrapper {
+  width: 100%;
+  margin: 1rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.item-image {
+  display: block;
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+}

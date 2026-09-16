@@ -113,10 +113,21 @@ const itemSchema = new mongoose.Schema(
       default: "Anonymous",
       maxlength: [100, "Name cannot exceed 100 characters"],
     },
+    imageUrl: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    imagePublicId: {
+       type: String,
+       default: "",
+       trim: true,
+    },
     claims: {
-  type: [claimRequestSchema],
-  default: [],
-},
+       type: [claimRequestSchema],
+      default: [],
+    },
   },
   {
     timestamps: true,

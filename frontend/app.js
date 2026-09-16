@@ -265,6 +265,41 @@ async function loadStats() {
   }
 }
 
+// ─── Claim Item ─────────────────────────────────────
+async function openClaimModal(itemId, itemTitle) {
+  const claimantName = prompt(
+    `Claim "${itemTitle}"\n\nEnter your name:`
+  );
+
+  if (!claimantName || !claimantName.trim()) return;
+
+  const claimantContact = prompt("Enter your contact information:");
+
+  if (!claimantContact || !claimantContact.trim()) return;
+
+  const claimDescription = prompt(
+    "Explain how you can identify this item:"
+  );
+
+  if (!claimDescription || !claimDescription.trim()) return;
+
+  try {
+    const result = await apiFetch(`/api/items/${itemId}/claims`, {
+      method: "POST",
+      body: JSON.stringify({
+        claimantName: claimantName.trim(),
+        claimantContact: claimantContact.trim(),
+        claimDescription: claimDescription.trim()
+      })
+    });
+
+    alert("✅ Claim submitted successfully!");
+    console.log(result);
+  } catch (err) {
+    alert(`❌ ${err.message}`);
+  }
+}
+
 // ─── Render Items ─────────────────────────────────────────────────────────────
 function renderItems(items) {
   const grid = document.getElementById("items-grid");

@@ -242,17 +242,29 @@ function showToast(message, type = "info") {
 // ─── API Calls ────────────────────────────────────────────────────────────────
 async function apiFetch(path, options = {}) {
   const url = `${API_BASE}${path}`;
+
+  const headers = { ...options.headers };
+
+  // Don't manually set Content-Type for FormData.
+  // The browser adds the correct multipart boundary.
+  if (!(options.body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
+  }
+
   const res = await fetch(url, {
-    headers: { "Content-Type": "application/json", ...options.headers },
     ...options,
+    headers,
   });
+
   const data = await res.json();
+
   if (!res.ok) {
     throw new Error(data.message || "Something went wrong");
   }
+
   return data;
 }
-
+ 
 // ─── Stats Bar ────────────────────────────────────────────────────────────────
 async function loadStats() {
   try {
@@ -432,22 +444,32 @@ async function submitReport(formEl, feedbackEl, type) {
     return;
   }
 
-  const payload = {
-    title: data.title.trim(),
-    type,
-    category: data.category,
-    description: data.description.trim(),
-    location: {building,
-  area,
-  latitude: data.latitude
-    ? Number(data.latitude)
-    : null,
-  longitude: data.longitude
-    ? Number(data.longitude)
-    : null},
-    contactInfo: data.contactInfo?.trim() || "",
-    reportedBy: data.reportedBy?.trim() || "Anonymous",
-  };
+ const formData = new FormData();
+
+formData.append("title", data.title.trim());
+formData.append("type", type);
+formData.append("category", data.category);
+formData.append("description", data.description.trim());
+
+formData.append(
+  "location",
+  JSON.stringify({
+    building,
+    area,
+    latitude: data.latitude ? Number(data.latitude) : null,
+    longitude: data.longitude ? Number(data.longitude) : null,
+  })
+);
+
+formData.append("contactInfo", data.contactInfo?.trim() || "");
+formData.append("reportedBy", data.reportedBy?.trim() || "Anonymous");
+
+// Add image
+const imageInput = formEl.querySelector('[name="image"]');
+
+if (imageInput && imageInput.files.length > 0) {
+  formData.append("image", imageInput.files[0]);
+}
 
   const submitBtn = formEl.querySelector('[type="submit"]');
   submitBtn.disabled = true;
@@ -458,7 +480,7 @@ async function submitReport(formEl, feedbackEl, type) {
   try {
     await apiFetch("/api/items", {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: formData,
     });
 
     feedbackEl.className = "form-feedback success";
